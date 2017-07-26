@@ -1,0 +1,36 @@
+{
+  "name": "scraping-placard",
+  "version": "0.0.1",
+  "description": "NodeJS service that fetches the Placard website, extracts events and bets from the HTML responses and stores the data in a database.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuisLoureiro/scraping-placard.git"
+  },
+  "keywords": [
+    "placard",
+    "web",
+    "fetch",
+    "crawling",
+    "scraping"
+  ],
+  "author": "Luís Loureiro",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/LuisLoureiro/scraping-placard/issues"
+  },
+  "homepage": "https://github.com/LuisLoureiro/scraping-placard#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "cheerio": "^1.0.0-rc.2",
+    "iconv": "^2.3.0",
+    "mongodb": "^2.2.30",
+    "yargs": "^8.0.2"
+  },
+  "devDependencies": {
+    "standard": "^10.0.2"
+  }
+}

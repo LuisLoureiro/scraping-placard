@@ -1,2 +1,2 @@
-# fetch-placard
-NodeJS service that fetches the Placard website, parses response HTML and store data in a database.
+# scraping-placard
+NodeJS service that fetches the Placard website, extracts events and bets from the HTML responses and stores the data in a database.
