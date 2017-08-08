@@ -1,6 +1,6 @@
 {
   "name": "scraping-placard",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "NodeJS service that fetches the Placard website, extracts events and bets from the HTML responses and stores the data in a database.",
   "main": "index.js",
   "scripts": {
