@@ -7,9 +7,7 @@ const {
 function handler (args) {
   const storage = new Storage(args.storageAddress, args.storagePath)
 
-  setImmediate(start, storage)
-
-  return setInterval(start, args.fetchDelay, storage)
+  return setImmediate(start, storage)
 }
 
 function start (storage) {
