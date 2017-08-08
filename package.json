@@ -4,6 +4,7 @@
   "description": "NodeJS service that fetches the Placard website, extracts events and bets from the HTML responses and stores the data in a database.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js -a $MONGODB_URI -p",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
