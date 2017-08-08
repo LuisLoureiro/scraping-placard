@@ -8,7 +8,7 @@ const argv = program
   .option('a', {
     alias: 'storage-address',
     demandOption: true,
-    describe: 'The host and port of the storage.',
+    describe: 'The protocol, host, port and path of the storage.',
     type: 'string'
   })
   .option('d', {
@@ -17,13 +17,7 @@ const argv = program
     describe: 'The number of milliseconds to wait before fetching the Placard website',
     type: 'number'
   })
-  .option('p', {
-    alias: 'storage-path',
-    demandOption: true,
-    describe: 'The path to the storage',
-    type: 'string'
-  })
-  .demandOption(['a', 'p'])
+  .demandOption(['a'])
   .help()
   .argv
 

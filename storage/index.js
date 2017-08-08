@@ -29,11 +29,8 @@ function removeData (db, collectionName, filter) {
 }
 
 class MongoDB {
-  constructor (address, name) {
-    this.address = address
-    this.databaseName = name
-
-    this.URL = `mongodb://${this.address}/${this.databaseName}`
+  constructor (address) {
+    this.URL = address
   }
 
   checkConnection () {
