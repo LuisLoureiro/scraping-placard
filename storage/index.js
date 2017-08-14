@@ -52,6 +52,11 @@ class MongoDB {
 
             return result.ops
           })
+          .catch(err => {
+            db.close()
+
+            throw err
+          })
       })
   }
 
@@ -63,6 +68,11 @@ class MongoDB {
             db.close()
 
             return result.acknowledged
+          })
+          .catch(err => {
+            db.close()
+
+            throw err
           })
       })
   }
