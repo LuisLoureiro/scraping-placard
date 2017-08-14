@@ -25,11 +25,11 @@ const fetch = {
       .then(response => response.data)
       .then(getSportsAndCountries)
   },
-  getCountryEvents (country) {
+  getCountryEvents (country, sportName) {
     return request
       .get(country.url)
       .then(response => response.data)
-      .then(getEventsGroupedByCompetition)
+      .then(getEventsGroupedByCompetition.bind(null, sportName, country.name))
   }
 }
 
