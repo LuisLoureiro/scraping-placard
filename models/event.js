@@ -1,4 +1,4 @@
-class Event {
+module.exports = class Event {
   constructor (code, home, away, date, bets, sport, country, competition) {
     this.code = code
     this.home = home
@@ -14,5 +14,3 @@ class Event {
     return `${this.date} ${this.code} - ${this.home} X ${this.away}`
   }
 }
-
-module.exports = Event

@@ -1,8 +1,6 @@
-var iconv = require('iconv')
+const iconv = require('iconv')
 
-function convertISO88591ToUTF8 (buffer) {
+module.exports = function convertISO88591ToUTF8 (buffer) {
   const ic = new iconv.Iconv('iso-8859-1', 'utf-8')
   return ic.convert(buffer)
 }
-
-module.exports = convertISO88591ToUTF8

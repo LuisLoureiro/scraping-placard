@@ -5,7 +5,7 @@ const Event = require('../../models/event')
 const Bet = require('../../models/bet')
 const NameValue = require('../../models/nameValue')
 
-function getEventsGroupedByCompetition (sport, country, document) {
+module.exports = function getEventsGroupedByCompetition (sport, country, document) {
   const $ = cheerio.load(document)
 
   return getCompetitions($, sport, country)
@@ -176,5 +176,3 @@ function getBets (betName, $keysValues) {
 
   return bet
 }
-
-module.exports = getEventsGroupedByCompetition

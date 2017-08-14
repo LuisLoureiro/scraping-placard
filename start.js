@@ -4,7 +4,7 @@ const {
   getSportsAndCountries
 } = require('./fetch')
 
-function handler (args) {
+module.exports = function handler (args) {
   const storage = new Storage(args.storageAddress, args.storagePath)
 
   return setImmediate(start, storage)
@@ -47,5 +47,3 @@ function emptyThenSave (storage, collectionName, data) {
 function merge (array) {
   return array.reduce((prev, current) => prev.concat(current), [])
 }
-
-module.exports = handler

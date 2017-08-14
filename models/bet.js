@@ -1,4 +1,4 @@
-class Bet {
+module.exports = class Bet {
   constructor (name, home, away, draw) {
     this.name = name
     this.home = home
@@ -6,5 +6,3 @@ class Bet {
     this.draw = draw
   }
 }
-
-module.exports = Bet

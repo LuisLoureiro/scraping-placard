@@ -16,7 +16,7 @@ const config = {
 }
 const request = axios.create(config)
 
-const fetch = {
+module.exports = {
   getSportsAndCountries () {
     const path = 'web/Placard/placard'
 
@@ -32,5 +32,3 @@ const fetch = {
       .then(getEventsGroupedByCompetition.bind(null, sportName, country.name))
   }
 }
-
-module.exports = fetch

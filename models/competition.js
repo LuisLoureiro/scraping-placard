@@ -1,4 +1,4 @@
-class Competition {
+module.exports = class Competition {
   constructor (name, events, sport, country) {
     this.name = name
     this.events = events || []
@@ -6,5 +6,3 @@ class Competition {
     this.country = country
   }
 }
-
-module.exports = Competition

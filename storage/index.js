@@ -1,34 +1,6 @@
 const MongoClient = require('mongodb').MongoClient
 
-function connect (url) {
-  return MongoClient.connect(url)
-}
-
-function insertData (db, collectionName, data) {
-  // Get the collection
-  const collection = db.collection(collectionName)
-  // Insert data
-  return collection.insertMany(data)
-    .then(result => {
-      console.log(`Inserted ${result.result.n} documents in the "${collectionName}" collection`)
-
-      return result
-    })
-}
-
-function removeData (db, collectionName, filter) {
-  // Get the collection
-  const collection = db.collection(collectionName)
-  // Remove data
-  return collection.deleteMany(filter)
-    .then(result => {
-      console.log(`Removed ${result.result.n} documents in the "${collectionName}" collection`)
-
-      return result
-    })
-}
-
-class MongoDB {
+module.exports = class MongoDB {
   constructor (address) {
     this.URL = address
   }
@@ -78,4 +50,30 @@ class MongoDB {
   }
 }
 
-module.exports = MongoDB
+function connect (url) {
+  return MongoClient.connect(url)
+}
+
+function insertData (db, collectionName, data) {
+  // Get the collection
+  const collection = db.collection(collectionName)
+  // Insert data
+  return collection.insertMany(data)
+    .then(result => {
+      console.log(`Inserted ${result.result.n} documents in the "${collectionName}" collection`)
+
+      return result
+    })
+}
+
+function removeData (db, collectionName, filter) {
+  // Get the collection
+  const collection = db.collection(collectionName)
+  // Remove data
+  return collection.deleteMany(filter)
+    .then(result => {
+      console.log(`Removed ${result.result.n} documents in the "${collectionName}" collection`)
+
+      return result
+    })
+}
