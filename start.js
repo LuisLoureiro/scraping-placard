@@ -14,32 +14,38 @@ function start (storage) {
   return storage
     .checkConnection()
     .then(getSportsAndCountries)
+    .then(emptyThenSave.bind(null, storage, 'sportsAndCountries'))
     .then(getSportsAndCountriesEvents)
-    .then(data => {
-      return storage.empty('sports')
-        .then(() => storage.save('sports', data))
-    })
+    // Merge sports
+    .then(merge)
+    // Merge countries
+    .then(merge)
+    // Merge competitions
+    .then(merge)
+    .then(emptyThenSave.bind(null, storage, 'events'))
     .catch(err => {
       console.log(err)
     })
 }
 
 function getSportsAndCountriesEvents (sports) {
-  const promises = sports.map(sportAndCountries => {
+  return Promise.all(sports.map(sport => {
     return new Promise((resolve, reject) => {
-      sportAndCountries.countries.forEach(country => {
-        resolve(getCountryEvents(country)
-          .then(events => {
-            country.competitions = events
-            return events
-          })
-          .catch(error => reject(error)))
-      })
+      resolve(Promise.all(sport.countries.map(country => {
+        return getCountryEvents(country, sport.name)
+          .catch(error => reject(error))
+      })))
     })
-  })
+  }))
+}
 
-  return Promise.all(promises)
-    .then(resolvedPromises => sports)
+function emptyThenSave (storage, collectionName, data) {
+  return storage.empty(collectionName)
+    .then(() => storage.save(collectionName, data))
+}
+
+function merge (array) {
+  return array.reduce((prev, current) => prev.concat(current), [])
 }
 
 module.exports = handler
