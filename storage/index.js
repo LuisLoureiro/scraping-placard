@@ -1,5 +1,55 @@
 const MongoClient = require('mongodb').MongoClient
 
+module.exports = class MongoDB {
+  constructor (address) {
+    this.URL = address
+  }
+
+  checkConnection () {
+    // Use connect method to connect to the server
+    return connect(this.URL)
+      .then(db => {
+        console.log(`Connected successfully to server. Database name = ${db.databaseName}.`)
+
+        db.close()
+      })
+  }
+
+  save (collectionName, data) {
+    return connect(this.URL)
+      .then(db => {
+        return insertData(db, collectionName, data)
+          .then(result => {
+            db.close()
+
+            return result.ops
+          })
+          .catch(err => {
+            db.close()
+
+            throw err
+          })
+      })
+  }
+
+  empty (collectionName) {
+    return connect(this.URL)
+      .then(db => {
+        return removeData(db, collectionName, {})
+          .then(result => {
+            db.close()
+
+            return result.acknowledged
+          })
+          .catch(err => {
+            db.close()
+
+            throw err
+          })
+      })
+  }
+}
+
 function connect (url) {
   return MongoClient.connect(url)
 }
@@ -27,45 +77,3 @@ function removeData (db, collectionName, filter) {
       return result
     })
 }
-
-class MongoDB {
-  constructor (address) {
-    this.URL = address
-  }
-
-  checkConnection () {
-    // Use connect method to connect to the server
-    return connect(this.URL)
-      .then(db => {
-        console.log(`Connected successfully to server. Database name = ${db.databaseName}.`)
-
-        db.close()
-      })
-  }
-
-  save (collectionName, data) {
-    return connect(this.URL)
-      .then(db => {
-        return insertData(db, collectionName, data)
-          .then(result => {
-            db.close()
-
-            return result.ops
-          })
-      })
-  }
-
-  empty (collectionName) {
-    return connect(this.URL)
-      .then(db => {
-        return removeData(db, collectionName, {})
-          .then(result => {
-            db.close()
-
-            return result.acknowledged
-          })
-      })
-  }
-}
-
-module.exports = MongoDB

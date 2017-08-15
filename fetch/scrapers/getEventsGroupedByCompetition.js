@@ -5,32 +5,34 @@ const Event = require('../../models/event')
 const Bet = require('../../models/bet')
 const NameValue = require('../../models/nameValue')
 
-function getEventsGroupedByCompetition (document) {
+module.exports = function getEventsGroupedByCompetition (sport, country, document) {
   const $ = cheerio.load(document)
 
-  return getCompetitions($)
+  return getCompetitions($, sport, country)
 }
 
-function getCompetitions ($) {
+function getCompetitions ($, sport, country) {
   const competitions = []
 
-  $('body > .wrapper > .contentMain > .main.sport > .section')
+  return $('body > .wrapper > .contentMain > .main.sport > .section')
     .children('.header')
-    .each(setCompetitionName.bind(null, $, competitions))
+    .each(setCompetitionName.bind(null, $, competitions, sport, country))
     .end()
     .children('.competition')
-    .each(setCompetitionEvents.bind(null, $, competitions))
-
-  return competitions
+    .map(setCompetitionEvents.bind(null, $, competitions))
+    .get()
 }
 
-function setCompetitionName ($, competitions, idx, elem) {
+function setCompetitionName ($, competitions, sport, country, idx, elem) {
   const $elem = $(elem)
   const competition = new Competition()
 
   competition.name = $elem.children('h2')
     .text()
     .trim()
+
+  competition.sport = sport
+  competition.country = country
 
   competitions.push(competition)
 
@@ -42,22 +44,20 @@ function setCompetitionEvents ($, competitions, idx, elem) {
   const events = []
 
   $elem.children('.dates')
-    .each(getEventsForBet.bind(null, $, events))
+    .each(getEventsForBet.bind(null, $, events, competitions[idx]))
 
-  competitions[idx].events = events
-
-  return competitions[idx]
+  return events
 }
 
-function getEventsForBet ($, events, idx, elem) {
+function getEventsForBet ($, events, competition, idx, elem) {
   const $elem = $(elem)
   const betName = getBetName($elem)
 
   $elem.find('.events table tr')
-    .each(createOrUpdateEvent.bind(null, $, events, betName))
+    .each(createOrUpdateEvent.bind(null, $, events, betName, competition))
 }
 
-function createOrUpdateEvent ($, events, betName, idx, elem) {
+function createOrUpdateEvent ($, events, betName, competition, idx, elem) {
   const $elem = $(elem)
   const code = Number.parseInt($elem.children('.marketIndex')
     .text()
@@ -65,7 +65,7 @@ function createOrUpdateEvent ($, events, betName, idx, elem) {
   let event
 
   if (!(event = getEvent(code, events))) {
-    events.push(event = createEvent(code, $elem))
+    events.push(event = createEvent(code, competition, $elem))
   }
 
   event.bets.push(
@@ -78,7 +78,7 @@ function getEvent (code, events) {
   return events.find(event => event.code === code)
 }
 
-function createEvent (code, $elem) {
+function createEvent (code, competition, $elem) {
   const event = new Event(code)
   const eventDayAndMonthArray = $elem.children('.date')
     .text()
@@ -87,6 +87,10 @@ function createEvent (code, $elem) {
     .text()
     .split('h')
   const keysValues = $elem.children('.outcome')
+
+  event.sport = competition.sport
+  event.country = competition.country
+  event.competition = competition.name
 
   event.date = new Date()
   event.date.setMonth(
@@ -172,5 +176,3 @@ function getBets (betName, $keysValues) {
 
   return bet
 }
-
-module.exports = getEventsGroupedByCompetition

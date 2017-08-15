@@ -3,7 +3,7 @@ const cheerio = require('cheerio')
 const Sport = require('../../models/sport')
 const Country = require('../../models/country')
 
-function getSportsAndCountries (document) {
+module.exports = function getSportsAndCountries (document) {
   const $ = cheerio.load(document)
 
   return $('#nav > li:not(.disabled)')
@@ -34,5 +34,3 @@ function mapCountry ($, idx, elem) {
 
   return country
 }
-
-module.exports = getSportsAndCountries
