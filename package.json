@@ -28,6 +28,8 @@
     "axios": "^0.16.2",
     "cheerio": "^1.0.0-rc.2",
     "iconv": "^2.3.0",
+    "moment": "^2.18.1",
+    "moment-timezone": "^0.5.13",
     "mongodb": "^2.2.30",
     "yargs": "^8.0.2"
   },

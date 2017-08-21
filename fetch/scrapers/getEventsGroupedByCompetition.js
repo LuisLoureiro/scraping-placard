@@ -1,4 +1,5 @@
 const cheerio = require('cheerio')
+const moment = require('moment-timezone')
 
 const Competition = require('../../models/competition')
 const Event = require('../../models/event')
@@ -92,16 +93,14 @@ function createEvent (code, competition, $elem) {
   event.country = competition.country
   event.competition = competition.name
 
-  event.date = new Date()
-  event.date.setMonth(
-    Number.parseInt(eventDayAndMonthArray[1], 10) - 1,
-    Number.parseInt(eventDayAndMonthArray[0], 10)
-  )
-  event.date.setHours(
-    Number.parseInt(eventHoursAndMinutesArray[0], 10),
-    Number.parseInt(eventHoursAndMinutesArray[1], 10),
-    0,
-    0)
+  event.date = moment().tz('Europe/Lisbon')
+  event.date.month(Number.parseInt(eventDayAndMonthArray[1], 10) - 1)
+  event.date.date(Number.parseInt(eventDayAndMonthArray[0], 10))
+  event.date.hours(Number.parseInt(eventHoursAndMinutesArray[0], 10))
+  event.date.minutes(Number.parseInt(eventHoursAndMinutesArray[1], 10))
+  event.date.seconds(0)
+  event.date.milliseconds(0)
+  event.date = event.date.valueOf()
 
   event.home = keysValues.first()
     .children('.outcome-wrapper')
