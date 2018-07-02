@@ -5,7 +5,7 @@ const {
 } = require('./fetch')
 
 module.exports = function handler (args) {
-  const storage = new Storage(args.storageAddress, args.storagePath)
+  const storage = new Storage(args.storageAddress)
 
   return setImmediate(start, storage)
 }
