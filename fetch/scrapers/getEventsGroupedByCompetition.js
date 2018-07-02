@@ -54,6 +54,10 @@ function getEventsForBet ($, events, competition, idx, elem) {
   const $elem = $(elem)
   const betName = getBetName($elem)
 
+  if (betName === 'Resultado exato' || betName === 'INT/TR') {
+    return
+  }
+
   $elem.find('.events table tr')
     .each(createOrUpdateEvent.bind(null, $, events, betName, competition))
 }
