@@ -24,15 +24,15 @@
   },
   "homepage": "https://github.com/LuisLoureiro/scraping-placard#readme",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "cheerio": "^1.0.0-rc.2",
     "iconv": "^2.3.0",
-    "moment": "^2.18.1",
-    "moment-timezone": "^0.5.13",
-    "mongodb": "^2.2.30",
-    "yargs": "^8.0.2"
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
+    "mongodb": "^3.1.0",
+    "yargs": "^12.0.1"
   },
   "devDependencies": {
-    "standard": "^10.0.2"
+    "standard": "^11.0.1"
   }
 }
