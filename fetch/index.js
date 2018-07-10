@@ -1,7 +1,7 @@
 const axios = require('axios')
 
 const getSportsAndCountries = require('./scrapers/getSportsAndCountries')
-const getEventsGroupedByCompetition = require('./scrapers/getEventsGroupedByCompetition')
+const getBetsGroupedByCompetition = require('./scrapers/getBetsGroupedByCompetition')
 const transformISO88591toUTF8 = require('./transformers/iso88591ToUTF8')
 const transformArrayBufferToString = require('./transformers/arrayBufferToString')
 
@@ -25,10 +25,10 @@ module.exports = {
       .then(response => response.data)
       .then(getSportsAndCountries)
   },
-  getCountryEvents (country, sportName) {
+  getCountryCompetitionsWithBets (country, sportName) {
     return request
       .get(country.url)
       .then(response => response.data)
-      .then(getEventsGroupedByCompetition.bind(null, sportName, country.name))
+      .then(getBetsGroupedByCompetition.bind(null, sportName, country.name))
   }
 }
