@@ -1,6 +1,6 @@
 const Storage = require('./storage')
 const {
-  getCountryEvents,
+  getCountryCompetitionsWithBets,
   getSportsAndCountries
 } = require('./fetch')
 
@@ -15,24 +15,22 @@ function start (storage) {
     .checkConnection()
     .then(getSportsAndCountries)
     .then(emptyThenSave.bind(null, storage, 'sportsAndCountries'))
-    .then(getSportsAndCountriesEvents)
-    // Merge sports
-    .then(merge)
-    // Merge countries
-    .then(merge)
-    // Merge competitions
-    .then(merge)
+    .then(getSportsAndCountriesCompetitionsWithBets)
+    // Reduce to an array of countries with competitions
+    .then(reducer)
+    // Reduce to an array of competitions
+    .then(reducer)
     .then(emptyThenSave.bind(null, storage, 'events'))
     .catch(err => {
       console.log(err)
     })
 }
 
-function getSportsAndCountriesEvents (sports) {
+function getSportsAndCountriesCompetitionsWithBets (sports) {
   return Promise.all(sports.map(sport => {
     return new Promise((resolve, reject) => {
       resolve(Promise.all(sport.countries.map(country => {
-        return getCountryEvents(country, sport.name)
+        return getCountryCompetitionsWithBets(country, sport.name)
           .catch(error => reject(error))
       })))
     })
@@ -44,6 +42,6 @@ function emptyThenSave (storage, collectionName, data) {
     .then(() => storage.save(collectionName, data))
 }
 
-function merge (array) {
+function reducer (array) {
   return array.reduce((prev, current) => prev.concat(current), [])
 }
