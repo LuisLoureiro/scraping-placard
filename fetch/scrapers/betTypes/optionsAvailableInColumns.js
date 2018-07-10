@@ -4,7 +4,7 @@ const moment = require('moment-timezone')
 const BetLine = require('../../../models/betLine')
 const NameValue = require('../../../models/nameValue')
 
-module.exports = class ThreeColumns {
+module.exports = class OptionsAvailableInColumns {
   constructor (betLineElem) {
     this.$ = cheerio.load(betLineElem)
   }
