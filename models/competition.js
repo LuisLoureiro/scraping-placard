@@ -1,8 +1,8 @@
 module.exports = class Competition {
-  constructor (name, events, sport, country) {
+  constructor (name, betTypes, sport, country) {
     this.name = name
-    this.events = events || []
     this.sport = sport
     this.country = country
+    this.betTypes = betTypes || []
   }
 }
