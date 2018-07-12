@@ -1,3 +1,3 @@
-const threeColumns = require('./optionsAvailableInColumns')
+const OptionsAvailableInColumns = require('./optionsAvailableInColumns')
 
-module.exports = threeColumns
+module.exports = OptionsAvailableInColumns
