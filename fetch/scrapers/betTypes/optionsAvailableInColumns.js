@@ -9,14 +9,44 @@ module.exports = class OptionsAvailableInColumns {
     this.$ = cheerio.load(betLineElem)
   }
 
+  getCodeElem () {
+    return this.$('.marketIndex')
+  }
+
+  getDateElem () {
+    return this.$('.date')
+  }
+
+  getTimeElem () {
+    return this.$('.time')
+  }
+
+  getOptionsElem () {
+    return this.$('.outcome > .outcome-wrapper')
+  }
+
   getBetLine () {
     const betLine = new BetLine()
 
-    betLine.code = Number.parseInt(this.$('.marketIndex').text().trim(), 10)
-    betLine.date = buildDateTime(this.$('.date'), this.$('.time'))
-    betLine.optionsAvailable = buildOptions(this.$('.outcome > .outcome-wrapper').get())
+    betLine.code = Number.parseInt(this.getCodeElem().text().trim(), 10)
+    betLine.date = buildDateTime(this.getDateElem(), this.getTimeElem())
+    betLine.optionsAvailable = this.buildOptions(this.getOptionsElem().get())
 
     return betLine
+  }
+
+  buildOptions (options) {
+    return OptionsAvailableInColumns.transformElemsIntoNameValueObjects(options)
+  }
+
+  static transformElemsIntoNameValueObjects (options) {
+    return options.map(option => {
+      const children = option.children.filter(isElemOfTypeTag)
+      const name = children[0].firstChild
+      const odd = children[1].children.filter(isElemOfTypeTag)[0].firstChild
+
+      return new NameValue(name.data.trim(), odd.data.trim())
+    })
   }
 }
 
@@ -35,16 +65,6 @@ function buildDateTime ($date, $time) {
   return date.valueOf()
 }
 
-function buildOptions (options) {
-  return options.map(option => {
-    const children = filterChildrenTags(option)
-    const name = children[0].firstChild
-    const odd = filterChildrenTags(children[1])[0].firstChild
-
-    return new NameValue(name.data.trim(), odd.data.trim())
-  })
-}
-
-function filterChildrenTags (elem) {
-  return elem.children.filter(child => child.type === 'tag')
+function isElemOfTypeTag (elem) {
+  return elem.type === 'tag'
 }
