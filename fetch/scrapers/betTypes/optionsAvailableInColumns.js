@@ -14,7 +14,7 @@ module.exports = class OptionsAvailableInColumns {
 
     betLine.code = Number.parseInt(this.$('.marketIndex').text().trim(), 10)
     betLine.date = buildDateTime(this.$('.date'), this.$('.time'))
-    betLine.optionsAvailable = buildOptions(this.$('.outcome > .outcome-wrapper'))
+    betLine.optionsAvailable = buildOptions(this.$('.outcome > .outcome-wrapper').get())
 
     return betLine
   }
@@ -35,14 +35,14 @@ function buildDateTime ($date, $time) {
   return date.valueOf()
 }
 
-function buildOptions ($options) {
-  return $options.map((idx, option) => {
+function buildOptions (options) {
+  return options.map(option => {
     const children = filterChildrenTags(option)
     const name = children[0].firstChild
     const odd = filterChildrenTags(children[1])[0].firstChild
 
     return new NameValue(name.data.trim(), odd.data.trim())
-  }).get()
+  })
 }
 
 function filterChildrenTags (elem) {
