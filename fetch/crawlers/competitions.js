@@ -5,7 +5,7 @@ class Crawler {
     this.$ = cheerio.load(document)
   }
 
-  findList () {
+  findBlock () {
     return this.$('body > .wrapper > .contentMain > .main.sport > .section')
   }
 

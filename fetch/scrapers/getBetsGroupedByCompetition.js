@@ -11,20 +11,20 @@ module.exports = function getBetsGroupedByCompetition (sport, country, document)
 }
 
 function getCompetitions (crawler, sport, country) {
-  const listOfCompetitionBlocks = crawler.findList()
-  const competitions = listOfCompetitionBlocks
-    .map(getCompetitionHeading.bind(null, crawler))
+  const competitionsBlock = crawler.findBlock()
+  const competitions = competitionsBlock
+    .map(getCompetitionsHeadings.bind(null, crawler))
     .map(createCompetition.bind(null, sport, country))
     .get()
 
-  return listOfCompetitionBlocks
-    .map(getCompetitionBets.bind(null, crawler))
+  return competitionsBlock
+    .map(getCompetitionsBets.bind(null, crawler))
     .map(updateCompetitionWithBets.bind(null, competitions))
     .get()
 }
 
-function getCompetitionHeading (crawler, idx, block) {
-  return crawler.findHeading(block).get(0)
+function getCompetitionsHeadings (crawler, idx, block) {
+  return crawler.findHeading(block).get()
 }
 
 function createCompetition (sport, country, idx, elem) {
@@ -38,8 +38,8 @@ function createCompetition (sport, country, idx, elem) {
   return competition
 }
 
-function getCompetitionBets (crawler, idx, block) {
-  return crawler.findBetsBlock(block).get(0)
+function getCompetitionsBets (crawler, idx, block) {
+  return crawler.findBetsBlock(block).get()
 }
 
 function updateCompetitionWithBets (competitions, idx, betsBlock) {
