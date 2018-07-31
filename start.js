@@ -82,8 +82,8 @@ function getOrCreateEvent (next, events, options, competition, betType, betLine)
   if (idx === -1) {
     event = new Event(betLine.code)
     event.date = betLine.date
-    event.home = options[0].name
-    event.away = options[options.length - 1].name
+    event.home = options[0][0].name
+    event.away = options[0][options[0].length - 1].name
     event.competition = competition.name
     event.country = competition.country
     event.sport = competition.sport

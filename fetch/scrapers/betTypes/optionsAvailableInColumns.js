@@ -36,7 +36,7 @@ module.exports = class OptionsAvailableInColumns {
   }
 
   buildOptions (options) {
-    return OptionsAvailableInColumns.transformElemsIntoNameValueObjects(options)
+    return new Array(OptionsAvailableInColumns.transformElemsIntoNameValueObjects(options))
   }
 
   static transformElemsIntoNameValueObjects (options) {
