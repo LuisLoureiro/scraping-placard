@@ -81,7 +81,9 @@ function getOrCreateEvent (next, events, options, competition, betType, betLine)
 
   if (idx === -1) {
     event = new Event(betLine.code)
-    event.date = betLine.date
+    // Store date as a value that can fit in a 32-bit int
+    // As we don't need the milliseconds, this can be done securely
+    event.date = betLine.date / 1000
     event.home = options[0][0].name
     event.away = options[0][options[0].length - 1].name
     event.competition = competition.name
