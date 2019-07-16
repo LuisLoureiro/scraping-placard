@@ -28,7 +28,7 @@
     "cheerio": "^1.0.0-rc.3",
     "iconv": "^2.3.4",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.25",
+    "moment-timezone": "^0.5.26",
     "mongodb": "^2.2.30",
     "yargs": "^8.0.2"
   },
