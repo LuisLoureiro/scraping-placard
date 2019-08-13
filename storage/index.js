@@ -9,7 +9,7 @@ module.exports = class MongoDB {
     // Use connect method to connect to the server
     return connect(this.URL)
       .then(client => {
-        const db = client.db();
+        const db = client.db()
 
         console.log(`Connected successfully to server. Database name = ${db.databaseName}.`)
 
@@ -20,7 +20,7 @@ module.exports = class MongoDB {
   save (collectionName, data) {
     return connect(this.URL)
       .then(client => {
-        const db = client.db();
+        const db = client.db()
 
         return insertData(db, collectionName, data)
           .then(result => {
@@ -39,7 +39,7 @@ module.exports = class MongoDB {
   empty (collectionName) {
     return connect(this.URL)
       .then(client => {
-        const db = client.db();
+        const db = client.db()
 
         return removeData(db, collectionName, {})
           .then(result => {
@@ -57,7 +57,7 @@ module.exports = class MongoDB {
 }
 
 function connect (url) {
-  return MongoClient.connect(url, { useNewUrlParser: true })
+  return MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 }
 
 function insertData (db, collectionName, data) {
