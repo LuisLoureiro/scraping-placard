@@ -30,10 +30,10 @@
     "iconv": "^2.3.4",
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
-    "mongodb": "^3.3.0",
-    "yargs": "^13.3.0"
+    "mongodb": "^3.3.2",
+    "yargs": "^14.0.0"
   },
   "devDependencies": {
-    "standard": "^13.1.0"
+    "standard": "^14.1.0"
   }
 }
