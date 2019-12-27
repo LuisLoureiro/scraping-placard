@@ -1,6 +1,7 @@
 const program = require('yargs')
 
 const start = require('./start')
+const updateGithubRepoChangelog = require('./updateGithubRepoChangelog')
 
 const argv = program
   .command(['start', '*'],
@@ -14,5 +15,7 @@ const argv = program
   .demandOption(['a'])
   .help()
   .argv
+
+start.registerAfterProcessingListener(updateGithubRepoChangelog)
 
 start(argv)
