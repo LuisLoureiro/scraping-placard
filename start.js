@@ -5,10 +5,23 @@ const {
 } = require('./fetch')
 const Event = require('./models/event')
 
+const afterListeners = []
+
 module.exports = function handler (args) {
   const storage = new Storage(args.storageAddress)
 
   return setImmediate(start, storage)
+}
+
+module.exports.registerAfterProcessingListener = function (listenerFn) {
+  if (typeof listenerFn !== 'function') {
+    throw new Error('Provided parameter is not a Function')
+  }
+  afterListeners.push(listenerFn)
+}
+
+function callAfterListeners () {
+  afterListeners.forEach(listener => setImmediate(listener))
 }
 
 function start (storage) {
@@ -23,6 +36,7 @@ function start (storage) {
     .then(reducer)
     .then(transformIntoEvents)
     .then(emptyThenSave.bind(null, storage, 'events'))
+    .then(callAfterListeners)
     .catch(err => {
       console.log(err)
     })
