@@ -55,12 +55,22 @@ function buildDateTime ($date, $time) {
   const hoursAndMinutesArray = $time.text().split('h')
   const date = moment().tz('Europe/Lisbon')
 
-  date.month(Number.parseInt(dayAndMonthArray[1], 10) - 1)
-  date.date(Number.parseInt(dayAndMonthArray[0], 10))
-  date.hours(Number.parseInt(hoursAndMinutesArray[0], 10))
-  date.minutes(Number.parseInt(hoursAndMinutesArray[1], 10))
-  date.seconds(0)
-  date.milliseconds(0)
+  const currentMonth = date.month()
+
+  date.set({
+    M: Number.parseInt(dayAndMonthArray[1], 10) - 1,
+    D: Number.parseInt(dayAndMonthArray[0], 10),
+    h: Number.parseInt(hoursAndMinutesArray[0], 10),
+    m: Number.parseInt(hoursAndMinutesArray[1], 10),
+    s: 0,
+    ms: 0
+  })
+
+  // We need to adjust the year for bets that take place in the year after the current one.
+  // This only happens at the last days of the year.
+  if (currentMonth === 11 && date.month() === 0) {
+    date.add(1, 'y')
+  }
 
   return date.valueOf()
 }
