@@ -22,7 +22,7 @@ const scrapers = {
 
 module.exports = {
   getBetLine: (betTypeName, betLineElem) => {
-    if (!scrapers.hasOwnProperty(betTypeName)) {
+    if (!Object.prototype.hasOwnProperty.call(scrapers, betTypeName)) {
       return {}
     }
 

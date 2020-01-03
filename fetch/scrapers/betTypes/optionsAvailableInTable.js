@@ -23,5 +23,5 @@ function isElemOfTypeTag (elem) {
 }
 
 function doesElemContainClass (klass) {
-  return elem => (elem.attribs['class'] || '').split(' ').filter(elemKlass => elemKlass === klass).length > 0
+  return elem => (elem.attribs.class || '').split(' ').filter(elemKlass => elemKlass === klass).length > 0
 }
