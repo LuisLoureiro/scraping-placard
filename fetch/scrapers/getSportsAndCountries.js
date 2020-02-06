@@ -1,36 +1,31 @@
-const cheerio = require('cheerio')
-
+const SportsAndCountriesCrawler = require('../crawlers/sportsAndCountries')
 const Sport = require('../../models/sport')
 const Country = require('../../models/country')
 
 module.exports = function getSportsAndCountries (document) {
-  const $ = cheerio.load(document)
+  const crawler = new SportsAndCountriesCrawler(document)
 
-  return $('#nav > li:not(.disabled)')
-    .map(mapSport.bind(null, $))
+  return crawler.findList()
+    .map(mapSport.bind(null, crawler))
     .get()
 }
 
-function mapSport ($, idx, elem) {
-  const $elem = $(elem)
+function mapSport (crawler, idx, elem) {
   const sport = new Sport()
 
-  sport.name = $elem.children('.first')
-    .text()
-    .trim()
-  sport.countries = $elem.find('ul > li > a')
-    .map(mapCountry.bind(null, $))
+  sport.name = crawler.findSportElem(elem).text().trim()
+  sport.countries = crawler.findCountries(elem)
+    .map(mapCountry)
     .get()
 
   return sport
 }
 
-function mapCountry ($, idx, elem) {
-  const $elem = $(elem)
+function mapCountry (idx, elem) {
   const country = new Country()
 
-  country.name = $elem.text().trim()
-  country.url = $elem.attr('href')
+  country.name = elem.firstChild.data.trim()
+  country.url = elem.attribs.href
 
   return country
 }
